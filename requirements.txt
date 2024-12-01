@@ -4,3 +4,7 @@ ctransformers
 langchain
 python-box
 streamlit
+textblob
+dataclasses
+transformer
+huggingface_hub.inference_api
