@@ -6,6 +6,9 @@ import os
 from transformers import pipeline
 from huggingface_hub.inference_api import InferenceApi
 
+from transformers import AutoModel
+
+
 @dataclass
 class Message:
     actor: str
@@ -24,22 +27,24 @@ if MESSAGES not in st.session_state:
     st.session_state["conversation_step"] = 1  # Track the conversation step
 
 # Function to load API key from a text file
-def load_api_key(filepath: str):
-    try:
-        with open(filepath, 'r') as file:
-            return file.read().strip()
-    except Exception as e:
-        st.error(f"Error reading API key from file: {e}")
-        return None
+# def load_api_key(filepath: str):
+#     try:
+#         with open(filepath, 'r') as file:
+#             return file.read().strip()
+#     except Exception as e:
+#         st.error(f"Error reading API key from file: {e}")
+#         return None
  
-# Load the API key
-api_key = load_api_key('hugging_face_token.txt')
-if not api_key:
-    st.error("Failed to load API key from file.")
-    st.stop()
+# # Load the API key
+# api_key = load_api_key('hugging_face_token.txt')
+# if not api_key:
+#     st.error("Failed to load API key from file.")
+#     st.stop()
 
 # Initialize the Inference API with the model and API key
-llm = InferenceApi("TheBloke/Llama-2-7B-Chat-GGML", token=api_key)
+# llm = InferenceApi("TheBloke/Llama-2-7B-Chat-GGML", token=api_key)
+
+llm = AutoModel.from_pretrained("TheBloke/Llama-2-7B-Chat-GGML")
 
 
 # Display existing chat messages
@@ -59,7 +64,7 @@ if user_input:
     st.chat_message(USER).write(user_input)
 
     # Load the model
-    llm = InferenceApi("TheBloke/Llama-2-7B-Chat-GGML", token=api_key)
+    llm = AutoModel.from_pretrained("TheBloke/Llama-2-7B-Chat-GGML")
     if llm:
         try:
             if st.session_state["conversation_step"] == 1:
