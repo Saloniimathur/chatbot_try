@@ -5,6 +5,6 @@ langchain
 python-box
 streamlit
 textblob
-dataclass
+dataclasses==0.8
 transformer
 huggingface_hub.inference_api
